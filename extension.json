@@ -1,0 +1,158 @@
+{
+	"name": "Thanks",
+	"version": "1.2.0",
+	"author": [
+		"P S"
+	],
+	"url": "https://www.mediawiki.org/wiki/Extension:Thanks",
+	"descriptionmsg": "votes-desc", 
+	
+	"type": "other",
+	"requires": { 
+		"MediaWiki": ">= 1.31.0",
+		"extensions": {
+			"Echo": "*"
+		}
+	},
+	"DefaultUserOptions": {
+		"echo-subscriptions-web-edit-vote": true,
+		"echo-subscriptions-email-edit-vote": false 
+	},
+	"RateLimits": {
+		"votes-notification": {
+			"user": [
+				10,
+				60
+			]
+		}
+	},
+	
+	"LogTypes": [
+		"votes"
+	],
+	"FilterLogTypes": {
+		"votes": true
+	},
+	"LogActionsHandlers": {
+		"Thanks/*": "VotesLogFormatter"
+	},
+	
+	"MessagesDirs": {
+		"Thanks": [
+			"i18n"
+		]
+	},
+	 
+	"AutoloadClasses": {
+		"VotesHooks": "includes/VotesHooks.php",
+		
+		"EchoFlowVotesPresentationModel": "includes/EchoFlowVotesPresentationModel.php",
+		"ApiVote": "includes/ApiVote.php",
+		
+		"ApiFlowVote": "includes/ApiFlowVote.php",
+		"VotesLogFormatter": "includes/VotesLogFormatter.php"
+		},
+	"ResourceModules": {
+		"ext.votes.images": {
+			"class": "ResourceLoaderImageModule",
+			"selector": ".mw-ui-icon-{name}:before",
+			"defaultColor": "#fff",
+			"images": {
+				"userTalk": {
+					"file": {
+						"ltr": "userTalk-ltr.svg",
+						"rtl": "userTalk-rtl.svg"
+					}
+				}
+			}
+		},
+		"ext.votes": {
+			"scripts": [
+				"ext.votes.vote.js"
+			],
+			"dependencies": [ 
+				"jquery.cookie",
+				"mediawiki.api"
+			]
+		},
+		
+		
+		"ext.votes.jquery.findWithParent": {
+			"scripts": [
+				"jquery.findWithParent.js"
+			]
+		},
+		"ext.votes.flowvote": { 
+			"scripts": [
+				"ext.votes.flowvote.js"
+			],
+			"messages": [
+				"votes-button-voted", 
+				"votes-error-undefined", 
+				"votes-error-ratelimited"
+			],
+			"dependencies": [
+				"oojs-ui-core",
+				"oojs-ui-windows",
+				"mediawiki.jqueryMsg",
+				"mediawiki.api",
+				"ext.votes.jquery.findWithParent",
+				"ext.votes"
+			] 
+		}
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "modules",
+		"remoteExtPath": "Thanks/modules"
+	},
+	"Hooks": {
+		
+		
+		"BeforeCreateEchoEvent": [
+			"VotesHooks::onBeforeCreateEchoEvent"
+		],
+		"EchoGetDefaultNotifiedUsers": [
+			"VotesHooks::onEchoGetDefaultNotifiedUsers"
+		],
+		"LocalUserCreated": [
+			"VotesHooks::onAccountCreated"
+		], 
+		
+		"GetLogTypesOnUser": [
+			"VotesHooks::onGetLogTypesOnUser"
+		],
+		"BeforePageDisplay": [
+			"VotesHooks::onBeforePageDisplay"
+		], 
+		
+		"ApiMain::moduleManager": [
+			"VotesHooks::onApiMainModuleManager"
+		],
+		"EchoGetBundleRules": [
+			"VotesHooks::onEchoGetBundleRules"
+		],
+		"LoadExtensionSchemaUpdates": "VotesHooks::addTable",
+		"LogEventsListLineEnding": [
+			"VotesHooks::onLogEventsListLineEnding"
+		]
+	},
+	"config": {
+		"VoteGivenToBots": false,
+		"VotesLogging": true, 
+		
+		"VotesLogTypeWhitelist": [
+			"contentmodel",
+			"delete",
+			"import",
+			"merge",
+			"move",
+			"patrol",
+			"protect",
+			"tag",
+			"managetags",
+			"rights",
+			"lock"
+		]
+	},
+	"manifest_version": 1
+}

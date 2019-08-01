@@ -1,0 +1,10 @@
+CREATE TABLE /*_*/V1 (
+ 
+  `UUID` varchar(255) default '0',
+  -- comment id
+  `NoV` int(11) default '0',
+  -- no. of votes for this comment
+
+  `Xtra` varchar(255) default ''
+  --extra column
+) 
